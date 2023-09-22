@@ -17,9 +17,32 @@ mutation crearCliente($input: ClienteInput){
   }
 `
 
+const QUERY_CLIENTES = gql`
+  query obtenerClientesPorVendedor {
+    obtenerClientesPorVendedor {
+      id
+      nombre
+      apellido
+      email
+      telefono
+    }
+  }
+`;
+
 const nuevocliente = () => {
 
-    const [crearCliente] = useMutation(MUTATION_AGREGAR_CLIENTE)
+    const [crearCliente] = useMutation(MUTATION_AGREGAR_CLIENTE, {
+      update(cache, { data: { crearCliente } }){
+        const {obtenerClientesPorVendedor } = cache.readQuery({query: QUERY_CLIENTES})
+
+        cache.writeQuery({
+          query: QUERY_CLIENTES,
+          data:{
+            obtenerClientesPorVendedor: [...obtenerClientesPorVendedor, crearCliente]
+          }
+        })
+      }
+    })
     const router = useRouter()
     const [mensaje, setMensaje] = useState(null);
 
@@ -50,6 +73,7 @@ const nuevocliente = () => {
                 })
                 router.push('/')
             } catch (error) {
+              console.log('error')
                 setMensaje(error.message.replace("ApolloError: ", ""));
                     setTimeout(() => {
                     setMensaje(null);

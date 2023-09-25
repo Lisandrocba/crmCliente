@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout'
 import React from 'react'
 
+
 const Pedidos = () => {
   return (
     <div>

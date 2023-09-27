@@ -10,17 +10,32 @@ import {
 const PedidosState =({children})=>{
 
     const initialState={
-        cliente = {},
-        pedidos={},
-        total= 0
+        cliente : {},
+        productos:[],
+        total: 0
     }
 
     const [state, dispatch] = useReducer(PedidoReducer, initialState)
 
+    const agregarCliente =cliente=>{
+        dispatch({
+            type: SELECCIONAR_CLIENTE,
+            payload: cliente
+        })
+    }
+
+    const agregarProductos = productos =>{
+        dispatch({
+            type: SELECCIONAR_PRODUCTO,
+            payload: productos
+        })
+    }
+
     return(
         <PedidoContext.Provider
         value={{
-
+            agregarCliente,
+            agregarProductos
         }}
         >
             {children}

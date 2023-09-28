@@ -24,10 +24,27 @@ const PedidosState =({children})=>{
         })
     }
 
-    const agregarProductos = productos =>{
+    const agregarProductos = productosSeleccionados =>{
+        let nuevoState;
+        if(state.productos.length > 0){
+            nuevoState = productosSeleccionados.map(producto=>{
+                const nuevoObjeto = state.productos.find(item=> item.id === producto.id )
+                return{...producto, ...nuevoObjeto}
+            })
+        }else{
+            nuevoState = productosSeleccionados
+        }
+
         dispatch({
             type: SELECCIONAR_PRODUCTO,
-            payload: productos
+            payload: nuevoState
+        })
+    }
+
+    const cantidadProducto = nuevoProducto =>{
+        dispatch({
+            type: CANTIDAD_PRODUCTOS,
+            payload: nuevoProducto
         })
     }
 
@@ -36,7 +53,8 @@ const PedidosState =({children})=>{
         value={{
             productos: state.productos,
             agregarCliente,
-            agregarProductos
+            agregarProductos,
+            cantidadProducto
         }}
         >
             {children}

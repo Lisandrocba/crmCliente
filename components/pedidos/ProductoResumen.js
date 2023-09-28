@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import PedidoContext from '@/context/pedidos/PedidosContext'
 
 const ProductoResumen = ({producto}) => {
     const {nombre, precio} = producto
+    const [cantidad, setCantidad] = useState(0)
+    const pedidoContext = useContext(PedidoContext)
+    const {cantidadProducto} = pedidoContext
+    useEffect(()=>{
+      asignarCantidad()
+    },[cantidad])
+
+    const asignarCantidad=()=>{
+      const nuevoProducto = {
+        ...producto, cantidad: Number(cantidad)
+      }
+      cantidadProducto(nuevoProducto)
+    }
   return (
     <div className='md:flex md:justify-between md:items-center mt-5 w-2/4 ml-10'>
         <div className='md:w-3/4 mb-2 md:mb-0'>
@@ -12,6 +26,8 @@ const ProductoResumen = ({producto}) => {
             type='number'
             placeholder='Cantidad'
             className='shadow appearance-none border rounded md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4'
+            onChange={e=> setCantidad(e.target.value)}
+            value={cantidad}
         />
     </div>
   )

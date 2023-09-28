@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Select from 'react-select'
 import { gql, useQuery } from '@apollo/client'
-import Loading from './Loading';
+import Loading from '../Loading';
 import PedidoContext from '@/context/pedidos/PedidosContext';
 
 const QUERY_CLIENTES = gql`

@@ -34,16 +34,16 @@ const AsignarProductos = () => {
   };
   return (
     <div>
-      <p className="mt-10 my-2 p-2 bg-white border-l-4 border-gray-800 text-gray-700 font-bold text-sm">
-        1- Seleccionar o buscar Productos
+      <p className="mt-7 my-2 p-2 bg-white border-l-4 border-gray-800 text-gray-700 font-bold text-sm">
+        2- Seleccionar o buscar Productos
       </p>
       <Select
         options={obtenerProductos}
         isMulti="true"
         onChange={(opcion) => seleccionarProducto(opcion)}
         getOptionValue={(opciones) => opciones.id}
-        getOptionLabel={(opciones) => opciones.nombre}
-        placeholder="Busque o selecciones el cliente"
+        getOptionLabel={(opciones) => `${opciones.nombre} - stock: ${opciones.stock}`}
+        placeholder="Busque o selecciones el producto"
         noOptionsMessage={() => "No hay resultados"}
       />
     </div>

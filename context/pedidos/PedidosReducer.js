@@ -1,7 +1,8 @@
 import {
     SELECCIONAR_CLIENTE,
     SELECCIONAR_PRODUCTO,
-    CANTIDAD_PRODUCTOS
+    CANTIDAD_PRODUCTOS,
+    CALCULAR_CANTIDAD
 } from '../../types'
 
 export default (state, action) =>{
@@ -21,6 +22,13 @@ export default (state, action) =>{
             return{
                 ...state, 
                 productos: state.productos.map(item => item.id === action.payload.id ? item = action.payload : item)
+            }
+        }
+
+        case CALCULAR_CANTIDAD:{
+            return{
+                ...state,
+                total: state.productos.reduce((acumulado, producto)=> acumulado += producto.precio * producto.cantidad, 0)
             }
         }
     

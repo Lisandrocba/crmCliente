@@ -4,13 +4,14 @@ import PedidoReducer from './PedidosReducer'
 import {
     SELECCIONAR_CLIENTE,
     SELECCIONAR_PRODUCTO,
-    CANTIDAD_PRODUCTOS
+    CANTIDAD_PRODUCTOS,
+    CALCULAR_CANTIDAD
 } from '../../types'
 
 const PedidosState =({children})=>{
 
     const initialState={
-        cliente : {},
+        cliente: {},
         productos:[],
         total: 0
     }
@@ -48,13 +49,22 @@ const PedidosState =({children})=>{
         })
     }
 
+    const calcularTotal = () =>{
+        dispatch({
+            type: CALCULAR_CANTIDAD
+        })
+    }
+
     return(
         <PedidoContext.Provider
         value={{
             productos: state.productos,
+            total: state.total,
+            cliente: state.cliente,
             agregarCliente,
             agregarProductos,
-            cantidadProducto
+            cantidadProducto,
+            calcularTotal
         }}
         >
             {children}

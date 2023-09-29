@@ -5,9 +5,10 @@ const ProductoResumen = ({producto}) => {
     const {nombre, precio} = producto
     const [cantidad, setCantidad] = useState(0)
     const pedidoContext = useContext(PedidoContext)
-    const {cantidadProducto} = pedidoContext
+    const {cantidadProducto, calcularTotal} = pedidoContext
     useEffect(()=>{
       asignarCantidad()
+      calcularTotal()
     },[cantidad])
 
     const asignarCantidad=()=>{

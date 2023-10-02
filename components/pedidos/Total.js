@@ -5,7 +5,6 @@ const Total = () => {
   const pedidoContext = useContext(PedidoContext)
 
   const {total} = pedidoContext
-  console.log(total)
 
   return (
     <div className='flex items-center mt-5 justify-between bg-gray-300 border-solid border-2 border-gray-500 p-3 w-1/3'>

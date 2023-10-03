@@ -9,7 +9,13 @@ const OBTENER_PEDIDOS = gql`
   query obtenerPedidosVendedor{
     obtenerPedidosVendedor {
       id
-      cliente
+      cliente {
+        id
+        nombre
+        apellido
+        email
+        telefono
+      }
       estado
       pedido {
         id
@@ -28,7 +34,7 @@ const Pedidos = () => {
   const {data, loading, error} = useQuery(OBTENER_PEDIDOS)
   if(loading) return <Loading />
   const {obtenerPedidosVendedor} = data
-  console.log(obtenerPedidosVendedor)
+  
   return (
     <div>
       <Layout>

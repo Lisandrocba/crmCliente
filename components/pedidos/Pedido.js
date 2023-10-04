@@ -29,6 +29,10 @@ const Pedido = ({ pedido }) => {
     }
   }
 
+  const cambiarEstadoPedido =estado=>{
+    console.log(estado)
+  }
+
  
   return (
     <div className={`${clase} border-t-4 mt-4 bg-gray-100 p-6 shadow-lg rounded md:grid md:grid-cols-2 md:gap-4`}>
@@ -43,6 +47,7 @@ const Pedido = ({ pedido }) => {
         <select 
         className="hover:cursor-pointer appearance-none bg-blue-600 border border-blue-600 uppercase text-center text-white text-sm focus:outline-none focus:bg-blue-600 focus:border-blue-500 p-2 rounded leading-tight w-auto"
         value={estadoRender}
+        onChange={e => cambiarEstadoPedido(e.target.value)}
         >
           <option value="COMPLETADO">COMPLETADO</option>
           <option value="PENDIENTE">PENDIENTE</option>

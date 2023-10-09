@@ -1,12 +1,53 @@
 import React, { useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import Swal from "sweetalert2";
+
+const OBTENER_PEDIDOS = gql`
+  query obtenerPedidosVendedor{
+    obtenerPedidosVendedor {
+      id    
+    }
+  }
+`
+
+const ACTUALIZAR_PEDIDO = gql`
+  mutation actualizarPedido($id: ID!, $input: PedidoInput){
+    actualizarPedido(id: $id, input: $input){
+      estado
+    }
+  }
+`
+
+const ELIMINAR_PEDIDO = gql`
+  mutation eliminarPedido($id: ID!){
+    eliminarPedido(id: $id)
+  }
+`
 
 const Pedido = ({ pedido }) => {
+  const [actualizarPedido] = useMutation(ACTUALIZAR_PEDIDO)
+  const [eliminarPedido] = useMutation(ELIMINAR_PEDIDO, {
+    update(cache){
+      const {obtenerPedidosVendedor} = cache.readQuery({
+        query: OBTENER_PEDIDOS
+      })
+
+      cache.writeQuery({
+        query: OBTENER_PEDIDOS,
+        data:{
+          obtenerPedidosVendedor: obtenerPedidosVendedor.filter(producto => producto.id !== id)
+        }
+      })
+    }
+  })
+
   const {
     id,
     cliente: { nombre, apellido, email, telefono },
     estado,
     cantidad,
-    total
+    total,
+    cliente
   } = pedido;
 
   const [estadoRender, setEstadoRender] = useState(estado)
@@ -29,8 +70,51 @@ const Pedido = ({ pedido }) => {
     }
   }
 
-  const cambiarEstadoPedido =estado=>{
-    console.log(estado)
+  const cambiarEstadoPedido =async estado=>{
+    try {
+      const {data} = await actualizarPedido({
+        variables:{
+          id,
+          input: {
+            estado,
+            cliente: cliente.id
+          }
+        }
+      })
+      setEstadoRender(data.actualizarPedido.estado)
+    } catch (error) {
+      console.log(error) 
+    }
+  }
+
+  const btnEliminarPedido = async() =>{
+    try {
+      Swal.fire({
+        title: 'Esta seguro que quiere eliminar el pedido?',
+        text: "El pedido eliminado ya no se puede recuperar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText:'Cancelar'
+      }).then(async(result) => {
+        if (result.isConfirmed) {
+          const {data} = await eliminarPedido({
+            variables:{
+              id
+            }
+          })
+          Swal.fire(
+            'Eliminado!',
+            data.eliminarPedido,
+            'success'
+          )
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
  
@@ -67,7 +151,7 @@ const Pedido = ({ pedido }) => {
             )
         })}
          <h2 className="font-bold text-gray-700 mt-4">Total: ${total}</h2>
-         <button className="mt-5 appearance-none bg-red-600 border border-red-600 hover:bg-red-800 hover:border-red-800 uppercase text-center text-white text-sm p-2 rounded leading-tight w-auto">Eliminar pedido</button>
+         <button onClick={()=> btnEliminarPedido()} className="mt-5 appearance-none bg-red-600 border border-red-600 hover:bg-red-800 hover:border-red-800 uppercase text-center text-white text-sm p-2 rounded leading-tight w-auto">Eliminar pedido</button>
       </div>
     </div>
   );

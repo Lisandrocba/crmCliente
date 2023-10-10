@@ -17,11 +17,17 @@ Por ultimo cuenta con estadísticas para ver cual es el mejor cliente y cual es 
 
 ## Tecnologias Utilizadas:
 -NextJs
+
 -NodeJs
+
 -GraphQL
+
 -Apollo
+
 -Taildwind
+
 -Javascript
+
 
 ## Link de la web:
 [Front end](https://crm-cliente-krc2q3o35-lisandros-projects.vercel.app/)

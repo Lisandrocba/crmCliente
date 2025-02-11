@@ -11,3 +11,6 @@ jobs:
     steps:
       - name: Echo the message
         run: echo "Hello, world!"
+      - name: dime la fecha
+        run: echo "La fecha es $(date)"
+      - run: ls -la
